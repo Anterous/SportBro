@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SportBro</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Strings for app drawer -->
+    <string name="Tracker">Tracker</string>
+    <string name="DataLog">Data Log</string>
+    <string name="Home">Home</string>
+    <string name="nav_header_title">SportsBro</string>
+    <string name="nav_header_subtitle">Made by some Sweat shop worker TM</string>
+
+</resources>
