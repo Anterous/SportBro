@@ -1,7 +1,9 @@
 package com.example.anterous.sportbro;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,9 +12,10 @@ import java.security.PrivateKey;
 import javax.crypto.spec.GCMParameterSpec;
 
 public class MyLocationListener implements LocationListener {
-
     private Location mLastLocation;
     private double speed = 0;
+
+
 
     @Override
     public void onLocationChanged(Location pCurrentLocation) {
