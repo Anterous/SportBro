@@ -134,7 +134,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateNote(SportEvent event) {
+    public int updateEvent(SportEvent event) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

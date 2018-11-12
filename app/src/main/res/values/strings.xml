@@ -12,4 +12,24 @@
     <string name="nav_header_title">SportsBro</string>
     <string name="nav_header_subtitle">Made by some Sweat shop worker TM</string>
 
+    <!--Strings for event dialog -->
+    <string name="New_event">Add new event</string>
+    <string name="Exc_type">exercise type</string>
+    <string name="Length">Length</string>
+    <string name="Kcal">Kcal burned</string>
+
+    <!--Strings for exercise type -->
+    <string-array name="planets_array">
+        <item>Jogging</item>
+        <item>Cardio</item>
+        <item>Dancing</item>
+        <item>Team sports</item>
+    </string-array>
+
+    <!--Strings for event list item -->
+    <string name="date_list_item">Date: </string>
+    <string name="Length_list_item">Length: </string>
+    <string name="kcal_list_item">Kcal burned: </string>
+
+
 </resources>

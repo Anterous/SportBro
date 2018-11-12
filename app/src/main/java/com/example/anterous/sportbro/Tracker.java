@@ -2,10 +2,12 @@ package com.example.anterous.sportbro;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -19,9 +21,11 @@ public class Tracker extends Fragment {
 
     Tracker context;
     private Handler handler;
+    Runnable r;
     MyLocationListener myLocationListener;
     TextView speedText;
     LocationManager locationManager;
+    private int MY_ACCES_LOCATION_ACCES_GRANTED = 0;
 
     @Nullable
     @Override
@@ -42,7 +46,7 @@ public class Tracker extends Fragment {
 
         handler = new Handler();
 
-        Runnable r = new Runnable() {
+        r = new Runnable() {
 
             public void run() {
                 StartSpeedMonitor();
@@ -50,6 +54,13 @@ public class Tracker extends Fragment {
             }
         };
         handler.postDelayed(r, 1000);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        handler.removeCallbacks(r);
     }
 
     @Override
@@ -61,13 +72,9 @@ public class Tracker extends Fragment {
 
     private void StartSpeedMonitor() {
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this.getActivity(),
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    MY_ACCES_LOCATION_ACCES_GRANTED);
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_margin"
+    android:paddingRight="@dimen/activity_margin"
+    android:paddingTop="@dimen/activity_margin">
+
+    <TextView android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/New_event"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/lbl_new_note_title"
+        android:textStyle="normal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Exc_type"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/input_new_note"
+        android:textColor="@color/colorPrimary"/>
+
+    <Spinner
+        android:id="@+id/type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20sp"></Spinner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Length"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/input_new_note"
+        android:textColor="@color/colorPrimary"/>
+
+    <EditText
+        android:id="@+id/event_length"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Exercise length in minutes "
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Kcal"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/input_new_note"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/burned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/input_new_note"
+        android:textColor="@color/colorRed"/>
+
+</LinearLayout>
