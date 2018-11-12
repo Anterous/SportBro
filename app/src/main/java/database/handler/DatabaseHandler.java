@@ -73,8 +73,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 SportEvent.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null)
+        if (cursor != null){
             cursor.moveToFirst();
+        }
 
         // prepare note object
         SportEvent sportEvent = new SportEvent(

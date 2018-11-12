@@ -19,7 +19,7 @@
     <string name="Kcal">Kcal burned</string>
 
     <!--Strings for exercise type -->
-    <string-array name="planets_array">
+    <string-array name="sports_array">
         <item>Jogging</item>
         <item>Cardio</item>
         <item>Dancing</item>
@@ -30,6 +30,7 @@
     <string name="date_list_item">Date: </string>
     <string name="Length_list_item">Length: </string>
     <string name="kcal_list_item">Kcal burned: </string>
+    <string name="time_list_item">Date:  </string>
 
 
 </resources>

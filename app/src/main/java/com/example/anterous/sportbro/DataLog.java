@@ -41,10 +41,10 @@ public class DataLog extends Fragment {
     ArrayList<HashMap<String,String>> data = new ArrayList<>();
     private ListView lv;
 
-    private String TAG_TYPE = "";
-    private String TAG_LENGTH = "";
-    private String TAG_KCAL = "";
-    private String TAG_TIMESTAMP = "";
+    private String TAG_TYPE = "type";
+    private String TAG_LENGTH = "length";
+    private String TAG_KCAL = "kcal";
+    private String TAG_TIMESTAMP = "time";
 
     private int length = 0;
     private String sport_type = "";
@@ -54,15 +54,16 @@ public class DataLog extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.fragment_datalog, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_datalog, container, false);
+        return rootview;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         lv = getActivity().findViewById(R.id.event_list);
-        db = new DatabaseHandler(this.getContext());
-        eventList.addAll(db.getAllEvents());
+        db = new DatabaseHandler(getActivity().getApplicationContext());
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,10 @@ public class DataLog extends Fragment {
                 openAddDialog();
             }
         });
+
+        if(lv.getCount() == 0){
+            getListFromDb();
+        }
     }
 
     private void openAddDialog() {
@@ -83,7 +88,7 @@ public class DataLog extends Fragment {
 
         final Spinner spinner = (Spinner) view.findViewById(R.id.type_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
-                R.array.planets_array, android.R.layout.simple_spinner_item);
+                R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -97,7 +102,7 @@ public class DataLog extends Fragment {
                 String str = editText.getText().toString();
                 //Log.e("TAGGERIINO", "spinner id: " + String.valueOf(type) + "event length: " + String.valueOf(length) );
                 if(!TextUtils.isEmpty(str)) {
-                    int length = Integer.parseInt(editText.getText().toString());
+                    length = Integer.parseInt(editText.getText().toString());
                     calculateKcal(type, length);
                     textVview.setText(String.valueOf(burn));
                 }
@@ -109,7 +114,6 @@ public class DataLog extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
-
 
         alertDialogBuilderUserInput
                 .setCancelable(false)
@@ -129,7 +133,6 @@ public class DataLog extends Fragment {
 
         final AlertDialog alertDialog = alertDialogBuilderUserInput.create();
         alertDialog.show();
-
     }
 
     private void calculateKcal(int type, int length) {
@@ -144,8 +147,6 @@ public class DataLog extends Fragment {
         this.burn = burn;
     }
 
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -155,31 +156,50 @@ public class DataLog extends Fragment {
 
     private void createNote(String event, int length, int kcal) {
         long id = db.inserEvent(event, length, kcal);
+        Log.e("GETDATA", "createNote: " + String.valueOf(length));
 
         SportEvent e = db.getEvent(id);
 
         if (e != null) {
             eventList.add(0, e);
         }
-
-        for (int i =0; i < eventList.size(); i++) {
-            SportEvent event1 =eventList.get(i);
-            HashMap<String,String> map = new HashMap<>();
-
-            map.put(TAG_TYPE, event1.getType());
-            map.put(TAG_LENGTH, String.valueOf(event1.getLength()));
-            map.put(TAG_KCAL, String.valueOf(event1.getKcal()));
-            map.put(TAG_TIMESTAMP, event1.getTimestamp());
-            data.add(map);
-        }
-        ListAdapter adapter = new SimpleAdapter(this.getContext(),
-                data,
-                R.layout.event_list_item,
-                new String[]{TAG_TYPE , TAG_LENGTH, TAG_KCAL},
-                new int[]{R.id.type_header_item, R.id.length_list_item, R.id.kcal_list_item});
-        lv.setAdapter(adapter);
+        SportEvent event1 = e;
+        HashMap<String,String> map = new HashMap<String, String>();
+        map.clear();
+        map.put(TAG_TYPE, event1.getType());
+        map.put(TAG_LENGTH, String.valueOf(event1.getLength()));
+        map.put(TAG_KCAL, String.valueOf(event1.getKcal()));
+        map.put(TAG_TIMESTAMP, event1.getTimestamp());
+        //Log.e("GETDATA", "createNote: " + "type: " +event1.getType() + " length: "+ String.valueOf(event1.getLength())+ " kcal: " + String.valueOf(event1.getKcal()) +" time: "+  event1.getTimestamp() );
+        data.add(map);
+        //Log.e("GETDATA", "createNote: " + map.toString() );
+        createList(TAG_TYPE, TAG_LENGTH, TAG_KCAL, TAG_TIMESTAMP);
     }
 
+    private void getListFromDb(){
 
+        for (int i = 1; i < db.getEventCount(); i++){
+            SportEvent event = db.getEvent(i);
+            HashMap<String,String> map = new HashMap<String, String>();
+            map.clear();
+            map.put(TAG_TYPE, event.getType());
+            map.put(TAG_LENGTH, String.valueOf(event.getLength()));
+            map.put(TAG_KCAL, String.valueOf(event.getKcal()));
+            map.put(TAG_TIMESTAMP, event.getTimestamp());
+            data.add(map);
+            Log.e("GETDATA", "getListFromDb: " + String.valueOf(event.getLength()) );
+            //Log.e("GETDATA", "createNote: " + "type: " +event.getType() + " length: "+ String.valueOf(event.getLength())+ " kcal: " + String.valueOf(event.getKcal()) +" time: "+  event.getTimestamp() );
+        }
+        createList(TAG_TYPE, TAG_LENGTH, TAG_KCAL, TAG_TIMESTAMP);
+    }
+
+    private void createList(String tag_type, String tag_length, String tag_kcal, String tag_time) {
+        ListAdapter adapter = new SimpleAdapter(getContext(),
+                data,
+                R.layout.event_list_item,
+                new String[]{tag_type, tag_length, tag_kcal, tag_time},
+                new int[]{R.id.type_header_item, R.id.length_list_item, R.id.kcal_list_item, R.id.time_list_item});
+        lv.setAdapter(adapter);
+    }
 
 }

@@ -53,17 +53,42 @@
         app:layout_constraintTop_toBottomOf="@+id/lenght_title"/>
 
     <TextView
-        android:id="@+id/kcal_list_item"
+    android:id="@+id/kcal_list_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="400 Kcal"
+    android:fontFamily="sans-serif-medium"
+    android:textColor="@color/colorAccent"
+    android:textSize="@dimen/lbl_new_note_title"
+    android:textStyle="normal"
+    android:paddingLeft="@dimen/dimen_10"
+    app:layout_constraintTop_toBottomOf="@+id/length_list_item"
+    app:layout_constraintLeft_toRightOf="@+id/kcal_title"/>
+
+    <TextView
+        android:id="@+id/time_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="400 Kcal"
+        android:text="@string/time_list_item"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/lbl_new_note_title"
         android:textStyle="normal"
         android:paddingLeft="@dimen/dimen_10"
-        app:layout_constraintTop_toBottomOf="@+id/length_list_item"
-        app:layout_constraintLeft_toRightOf="@+id/kcal_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/kcal_title"/>
+
+    <TextView
+        android:id="@+id/time_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 20-20-1018"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/lbl_new_note_title"
+        android:textStyle="normal"
+        android:paddingLeft="@dimen/dimen_10"
+        app:layout_constraintTop_toBottomOf="@+id/kcal_list_item"
+        app:layout_constraintLeft_toRightOf="@+id/time_title"/>
 
 
 
