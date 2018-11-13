@@ -35,5 +35,7 @@
     <!--Strings for tracker -->
     <string name="end_workout">Finish workout</string>
     <string name="start_workout">Start workout</string>
+    <string name="dialog_title_tracker">Paused</string>
+    <string name="dialog_text_tracker">Do you want to save or continue</string>
 
 </resources>

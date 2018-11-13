@@ -2,6 +2,7 @@ package com.example.anterous.sportbro;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -11,11 +12,18 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -78,7 +86,7 @@ public class Tracker extends Fragment {
                     Log.e("CLICKED", "onClick: ");
                     isRunning = false;
                     handler.removeCallbacks(r);
-
+                    openAddDialog();
                 }
             }
 
@@ -134,6 +142,33 @@ public class Tracker extends Fragment {
         speedText.setText( current_speed + " m/s");
         distanceText.setText(String.valueOf(totalvalue ) + " M");
         timeText.setText(String.valueOf(speedList.size()) + " Sec");
+    }
+
+    private void openAddDialog() {
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this.getContext());
+        View view = layoutInflaterAndroid.inflate(R.layout.tracker_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this.getActivity());
+        alertDialogBuilderUserInput.setView(view);
+
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        
+                    }
+                })
+                .setNegativeButton("resume",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        final AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+        alertDialog.show();
     }
 
 }
