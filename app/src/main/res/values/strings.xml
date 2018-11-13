@@ -32,5 +32,8 @@
     <string name="kcal_list_item">Kcal burned: </string>
     <string name="time_list_item">Date:  </string>
 
+    <!--Strings for tracker -->
+    <string name="end_workout">Finish workout</string>
+    <string name="start_workout">Start workout</string>
 
 </resources>

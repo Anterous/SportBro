@@ -15,7 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
 
 public class Tracker extends Fragment {
 
@@ -24,15 +29,62 @@ public class Tracker extends Fragment {
     Runnable r;
     MyLocationListener myLocationListener;
     TextView speedText;
+    TextView distanceText;
+    TextView timeText;
+    Button collectdata_button;
     LocationManager locationManager;
     private int MY_ACCES_LOCATION_ACCES_GRANTED = 0;
+    ArrayList<String> speedList = new ArrayList<>();
+    float distance = 0;
+    float totalvalue = 0;
+    boolean isRunning = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.fragment_tracker, container, false);
+        View view = inflater.inflate(R.layout.fragment_tracker,
+                container, false);
+        Button button = (Button) view.findViewById(R.id.collectdata_button);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+
+                handler = new Handler();
+
+                if (isRunning == false) {
+                    collectdata_button.setText(R.string.end_workout);
+
+                    isRunning = true;
+
+                    r = new Runnable() {
+
+                        public void run() {
+
+                            if (isRunning == true) {
+                                StartSpeedMonitor();
+                                handler.postDelayed(this, 1000); //  delay one second before updating the number
+                            }
+                            else{
+                                handler.removeCallbacks(r);
+                            }
+                        }
+                    };
+
+                    handler.postDelayed(r, 1000);
+                }
+                else{
+                    collectdata_button.setText(R.string.start_workout);
+                    Log.e("CLICKED", "onClick: ");
+                    isRunning = false;
+                    handler.removeCallbacks(r);
+
+                }
+            }
+
+        });
+        return view;
+
     }
 
     @Override
@@ -43,24 +95,16 @@ public class Tracker extends Fragment {
 
         myLocationListener = new MyLocationListener();
         speedText = getView().findViewById(R.id.cur_speed);
+        distanceText = getView().findViewById(R.id.cur_distance);
+        timeText = getView().findViewById(R.id.cur_length);
+        collectdata_button = getView().findViewById(R.id.collectdata_button);
 
-        handler = new Handler();
-
-        r = new Runnable() {
-
-            public void run() {
-                StartSpeedMonitor();
-                handler.postDelayed(this, 1000); //  delay one second before updating the number
-            }
-        };
-        handler.postDelayed(r, 1000);
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        handler.removeCallbacks(r);
     }
 
     @Override
@@ -80,7 +124,16 @@ public class Tracker extends Fragment {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);
         double speed = myLocationListener.getSpeed();
         // Log.e("SPEEDTEST", "StartSpeedMonitor: " + String.valueOf(speed));
-        speedText.setText(String.valueOf((float) Math.round(speed * 100) / 100) + " m/s");
+        String current_speed = String.valueOf((float) Math.round(speed * 100) / 100);
+        speedList.add(current_speed);
+        for (int i = 0; i > speedList.size(); i++){
+            float val = Float.parseFloat(speedList.get(i));
+            totalvalue = totalvalue + val;
+        }
+        Log.e("SPEEDLIST", "StartSpeedMonitor: " + speedList.toString() );
+        speedText.setText( current_speed + " m/s");
+        distanceText.setText(String.valueOf(totalvalue ) + " M");
+        timeText.setText(String.valueOf(speedList.size()) + " Sec");
     }
 
 }
