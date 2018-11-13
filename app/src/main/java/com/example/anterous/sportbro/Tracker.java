@@ -157,7 +157,7 @@ public class Tracker extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        
+
                     }
                 })
                 .setNegativeButton("resume",
